@@ -116,8 +116,28 @@ export function validarCliente(cliente) {
 //   { registrado: 3, en_preparacion: 3, listo: 2, entregado: 2 }
 // Con una lista vacía, todos van en 0.
 export function resumenPorEstado(pedidos) {
+  
+  const resumen = {};
+  ESTADOS.forEach(estado => {
+    resumen[estado] = 0;
+  });
+
+  // Si no se recibe un arreglo válido, devolvemos el objeto inicializado con ceros
+  if (!Array.isArray(pedidos)) {
+    return resumen;
+  }
+
+  // Recorremos cada pedido y aumentamos el contador del estado correspondiente
+  for (const pedido of pedidos) {
+    if (pedido && pedido.estado && resumen.hasOwnProperty(pedido.estado)) {
+      resumen[pedido.estado]++;
+    }
+  }
+
+  return resumen;
   return {} // TODO
 }
+
 
 // ----------------------------------------------------------------------------
 // MISIÓN 5 · RF5 — Buscar pedidos por nombre de cliente
